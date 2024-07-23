@@ -1,44 +1,50 @@
 #include "../include/philosophers.h"
 
-void	*eat()
+void	mutex_start(t_table *table)
 {
-	printf("Eating...\n ID: %d\n\n", getpid());
-	return NULL;
+	int	i;
+
+	i = 0;
+	while (i < table->philo_nbr)
+	{
+		pthread_mutex_init(&table->forks[i], NULL);
+		i++;
+	}
+	pthread_mutex_init(&table->write_gate, NULL);
+	pthread_mutex_init(&table->dead_gate, NULL);
+	pthread_mutex_init(&table->meal_gate, NULL);
 }
 
-void	*think()
+int	init_table(t_table *table, char **argv)
 {
-	printf("Thinking...\n ID: %d\n\n", getpid());
-	return NULL;
+	long	philo_nbr;
+	int		i;
+
+	i = 0;
+	philo_nbr = ft_atoi(argv[1]);
+	if (philo_nbr > TABLE_CAP)
+		return (write(2, "Too Many Guests\n", 16), 1);
+	table->philo_nbr = philo_nbr;
+	table->dead_stop = false;
+	mutex_start(table);
+	while (i < philo_nbr)
+	{
+		philo_born(table, i, argv);
+		i++;
+	}
+	return (0);
 }
 
-
-void	*sleeping()
+int 	main(int argc, char **argv)
 {
-	printf("Sleeping...\n ID: %d\n\n", getpid());
-	return NULL;
-}
+	t_table		table;
 
-void	*routine()
-{
-	printf("Sleeping...\n ID: %d\n\n", getpid());
-	return NULL;
-}
-
-int 	main(int argc, char *argv[])
-{
-	pthread_t t1, t2;
-
-	(void)argv;
-	if (argc > 6)
-		printf("Too many args");
-	if (pthread_create(&t1, NULL, &routine, NULL) != 0)
-		return (1);
-	if (pthread_create(&t2, NULL, &routine, NULL) != 0)
-		return (2);
-	if (pthread_join(t1, NULL) != 0) 
-		return (3);
-	if (pthread_join(t2, NULL) != 0)
-		return (4);
+	if (argc != 6 && argc != 5)
+		return(write(2, "Give More Info Please\n", 23), 1);
+	else if (check_data(argv) == 1)
+		return (write(2, "Invalid Arguments\n", 19), 1);
+	init_table(&table, argv);
+	go_init(&table);
+	destroy_mutex(&table);
 	return (0);
 }
