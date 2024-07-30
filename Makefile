@@ -3,8 +3,8 @@ include include/pretty_colors_ANSI
 
 # Project files
 
-AUX = aux1.c cleaning.c ft_atoi.c init_aux.c carousel_aux.c
-INIT = init_factory.c validation.c philo_born.c
+AUX = aux1.c cleaning.c ft_atoi.c init_aux.c
+INIT = validation.c philo_born.c
 CAROUSEL = carousel.c actions.c monitor.c
 
 SRC_DIR = ./source/

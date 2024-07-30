@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dde-maga <dde-maga@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:28:01 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/07/29 15:28:04 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:20:53 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->r_fork);
-	timed_message(" has taken a right fork", philo);
+	timed_message(" has taken a right fork", CYAN, philo);
 	if (philo->philo_nbr == 1)
 	{
 		ft_usleep(philo->t_to_die);
@@ -23,9 +23,9 @@ void	eat(t_philo *philo)
 		return ;
 	}
 	pthread_mutex_lock(philo->l_fork);
-	timed_message(" has taken a left fork", philo);
+	timed_message(" has taken a left fork", CYAN, philo);
 	philo->eating = 1;
-	timed_message(" is eating", philo);
+	timed_message(" is eating", GREEN, philo);
 	pthread_mutex_lock(philo->meal_gate);
 	philo->last_meal = check_time();
 	philo->eaten_meals++;
@@ -38,15 +38,15 @@ void	eat(t_philo *philo)
 
 void	dream(t_philo *philo)
 {
-	philo->sleeping = 1;
-	timed_message(" is sleeping", philo);
-	ft_usleep(philo->t_to_sleep);
-	philo->sleeping = 0;
+		philo->sleeping = 1;
+		timed_message(" is sleeping", BLUE, philo);
+		ft_usleep(philo->t_to_sleep);
+		philo->sleeping = 0;
 }
 
 void	think(t_philo *philo)
 {
 	philo->thinking = 1;
-	timed_message(" is thinking", philo);
+	timed_message(" is thinking", YELLOW, philo);
 	philo->thinking = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dde-maga <dde-maga@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:29:06 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/07/29 15:38:21 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:56:10 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int argc, char **argv)
 	mutex_start (&table);
 	init_philos (&table, argv);
 	go_init (&table);
-	mutex_stop ("THE END", &table, table.forks);
+	mutex_stop (NULL, &table, table.forks);
 	cleaner (&table);
 	return (0);
 }

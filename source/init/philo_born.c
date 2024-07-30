@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_born.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dde-maga <dde-maga@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:28:46 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/07/29 15:39:00 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:28:06 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	status_quo_init(t_philo *philo)
 void	t_stamps_init(t_philo *philo, char **argv)
 {
 	philo->start_t = check_time();
-	philo->last_meal = philo->start_t;
+	philo->last_meal = check_time();
 	philo->t_to_die = ft_atoi(argv[2]);
 	philo->t_to_eat = ft_atoi(argv[3]);
 	philo->t_to_sleep = ft_atoi(argv[4]);

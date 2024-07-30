@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dde-maga <dde-maga@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:53:07 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/07/29 16:07:05 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:55:45 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ typedef struct s_table	t_table;
 typedef struct s_philo	t_philo;
 
 # define TABLE_CAP 200
+
+# define RST		"\e[0m"
+# define BLD		"\e[1m"
+# define FNT		"\e[2m"
+# define ITL		"\e[3m"
+# define UDL		"\e[4m"
+
+# define BLACK		"\e[30m"
+# define RED    	"\e[31m"
+# define GREEN		"\e[32m"
+# define YELLOW		"\e[33m"
+# define BLUE		"\e[34m"
+# define MAGENTA	"\e[35m"
+# define CYAN		"\e[36m"
+# define GRAY		"\e[90m"
+# define WHITE		"\e[97m"
 
 struct			s_philo
 {
@@ -65,11 +81,11 @@ struct			s_table
 };
 
 //============================= AUXILIARY FUNCTIONS =====================//
-void					timed_message(char *message, t_philo *philo);
+void					timed_message(char *message, char *color, t_philo *philo);
 void					mutex_stop(char *str, t_table *table, \
 							pthread_mutex_t *forks);
-void					ft_usleep(size_t time);
 void					ft_putstr_fd(char *s, int fd);
+int						ft_usleep(size_t time);
 int						ft_atoi(const char *str);
 int						check_args(char *argv);
 long					ft_atol(const char *str);
@@ -93,5 +109,6 @@ int						go_init(t_table *table);
 int						check_full_belley(t_philo *philos);
 int						starv_o_meter(t_philo *philo, size_t t_to_die);
 int						dead_check(t_philo *philos);
+int						check_vitals(t_philo *philo);
 
 #endif

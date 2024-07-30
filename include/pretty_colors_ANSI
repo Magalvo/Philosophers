@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    pretty_colors_ANSI                                 :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: cjoao-de <cjoao-de@student.42lisboa.com    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/20 21:49:49 by cjoao-de          #+#    #+#              #
-#    Updated: 2024/02/20 21:50:07 by cjoao-de         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # https://linuxcommand.org/lc3_adv_tput.php
 # https://dev.to/ifenna__/adding-colors-to-bash-scripts-48g4
 

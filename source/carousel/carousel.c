@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carousel.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dde-maga <dde-maga@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:28:16 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/07/29 16:24:15 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:30:06 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	starv_o_meter(t_philo *philo, size_t t_to_die)
 {
 	pthread_mutex_lock(philo->meal_gate);
-	if (check_time() - philo->last_meal >= t_to_die && !philo->eating)
+	if (check_time() - philo->last_meal >= t_to_die && philo->eating == 0)
 		return (pthread_mutex_unlock(philo->meal_gate), 1);
 	pthread_mutex_unlock(philo->meal_gate);
 	return (0);
@@ -23,14 +23,11 @@ int	starv_o_meter(t_philo *philo, size_t t_to_die)
 
 int	check_vitals(t_philo *philo)
 {
-	int	dead_status;
-
 	pthread_mutex_lock(philo->dead_gate);
-	dead_status = 0;
 	if (*philo->dead == 1)
-		dead_status = 1;
+		return(pthread_mutex_unlock(philo->dead_gate), 1); //dead_status = 1;
 	pthread_mutex_unlock(philo->dead_gate);
-	return (dead_status);
+	return (0);
 }
 
 void	*philo_life(void *pointer)
@@ -55,7 +52,7 @@ int	go_init(t_table *table)
 	int			i;
 
 	i = 0;
-	if (pthread_create(&waiter, NULL, &socrates, table) != 0)
+	if (pthread_create(&waiter, NULL, &socrates, table->philos) != 0)
 		mutex_stop("*Waiter* Error on create", table, table->forks);
 	while (i < table->philo_nbr)
 	{
