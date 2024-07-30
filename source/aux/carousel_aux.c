@@ -1,12 +1,13 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   carousel_aux.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/29 15:48:27 by dde-maga          #+#    #+#             */
+/*   Updated: 2024/07/29 15:48:41 by dde-maga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/philosophers.h"
-
-void	timed_message(char *message, t_philo *philo)
-{
-	size_t	start_time;
-
-	pthread_mutex_lock(philo->write_gate);
-	start_time = check_time() - philo->start_t;
-	if (!philo->dead)
-		printf("%zu %d %s\n", start_time, philo->philo_id, message);
-	pthread_mutex_lock(philo->write_gate);
-}

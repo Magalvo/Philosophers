@@ -1,29 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/29 15:28:28 by dde-maga          #+#    #+#             */
+/*   Updated: 2024/07/29 16:56:21 by dde-maga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/philosophers.h"
 
-int	starv_o_meter(t_philo *philo, size_t t_to_die)
+int	check_full_belley(t_philo *philos)
 {
-	pthread_mutex_lock(philo->meal_gate);
-	if (check_time() - philo->last_meal >= t_to_die
-		&& philo->eating == false)
-		return(pthread_mutex_unlock(philo->meal_gate), 1);
-	pthread_mutex_unlock(philo->meal_gate);
+	int	i;
+	int	full_belly;
+
+	i = 0;
+	full_belly = 0;
+	if (philos[0].max_meals == -1)
+		return (0);
+	while (i < philos[0].philo_nbr)
+	{
+		pthread_mutex_lock(philos[i].meal_gate);
+		if (philos[i].eaten_meals >= philos[i].max_meals)
+			full_belly++;
+		pthread_mutex_unlock(philos[i].meal_gate);
+		i++;
+	}
+	if (full_belly == philos[0].philo_nbr)
+	{
+		pthread_mutex_lock(philos[0].dead_gate);
+		*philos[0].dead = 1;
+		pthread_mutex_unlock(philos[0].dead_gate);
+		return (1);
+	}
 	return (0);
 }
 
-int	dead_check(t_table *table)
+int	dead_check(t_philo *philos)
 {
 	int	i;
 
-
 	i = 0;
-	while (i < table->philo_nbr)
+	while (i < philos[0].philo_nbr)
 	{
-		if (starv_o_meter(&table->philos[i], table->philos[i].t_to_die))
+		if (starv_o_meter(&philos[i], philos[i].t_to_die))
 		{
-			timed_message("died", &table->philos[i]);
-			pthread_mutex_lock(table->philos[i].dead_gate);
-			table->philos[i].dead = true;
-			pthread_mutex_unlock(table->philos[i].dead_gate);
+			timed_message(" died *.*", &philos[i]);
+			pthread_mutex_lock(philos[0].dead_gate);
+			*philos[0].dead = 1;
+			pthread_mutex_unlock(philos[0].dead_gate);
 			return (1);
 		}
 		i++;
@@ -31,42 +59,18 @@ int	dead_check(t_table *table)
 	return (0);
 }
 
-int	check_full_belley(t_table *table)
-{
-	int	i;
-	int	full_belly;
-
-	i = 0;
-	full_belly = 0;
-	if (table->philos->nbr_of_meals == -1)
-		return (0);
-	while (i < table->philo_nbr)
-	{
-		pthread_mutex_lock(table->philos[i].meal_gate);
-		if (table->philos[i].eaten_meals >= table->philos[i].nbr_of_meals)
-			full_belly++;
-		pthread_mutex_unlock(table->philos[i].meal_gate);
-		i++;
-	}
-	if (full_belly == table->philo_nbr)
-	{
-		pthread_mutex_lock(&table->dead_gate);
-		table->dead_stop = true;
-		pthread_mutex_unlock(&table->dead_gate);
-		return (1);
-	}
-	return (0);
-}
-//? MONITOR
 void	*socrates(void *pointer)
 {
 	t_table	*table;
 
 	table = (t_table *)pointer;
-	while (1)
+	while (!table->dead_stop)
 	{
-		if (dead_check(table) == 1 || check_full_belley(table) == 1)
+		if (dead_check (table->philos) || check_full_belley (table->philos))
+		{
+			table->dead_stop = 1;
 			break ;
+		}
 	}
-	return (pointer);
+	return (NULL);
 }
