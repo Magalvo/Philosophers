@@ -28,12 +28,12 @@ OBJECTS = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 # Build settings
 #
 NAME = philo
-CFLAGS = -pthread -Wall -Wextra -Werror -O3
+CFLAGS = -Wall -Wextra -Werror -O3
 debug: CFLAGS += -g3 -fPIE
 MAKEFLAGS += --no-print-directory
 .SILENT:  clean fclean debug $(OBJECTS) $(NAME)
 RM = rm -rf
-CC = cc
+CC = cc #-pthread -fsanitize=thread
 
 all: $(NAME)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-maga <dde-maga@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:29:21 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/07/30 13:38:31 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:30:39 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_usleep(size_t time)
 
 	curr_t = check_time();
 	while((check_time() - curr_t) < time)
-		usleep(500);
+		usleep(250);
 	return (0);
 }
 
